@@ -77,6 +77,7 @@ st.write(f"**Total Expenses:** {format_currency(total_expenses)}")
 st.subheader("Cash Flow Summary")
 st.metric("Net Cash Flow", format_currency(cash_flow))
 st.metric("Loan-to-Rent Ratio", ltr)
+st.metric("Down Payment", format_currency(down_payment))
 
 if cash_flow > 0:
     st.success("Positive Cash Flow!")
