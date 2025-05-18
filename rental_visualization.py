@@ -45,11 +45,9 @@ total_nights_rented = (weeks_rented * 7) + shoulder_nights
 cash_flow = total_income - total_expenses
 ltr = round(loan / total_income, 2)
 
-# ROI and Cap Rate
+# ROI
 down_payment = loan * 0.625  # Assumes loan is 75% of price
-purchase_price = loan / 0.75
 roi = (cash_flow / down_payment) * 100
-cap_rate = (total_income / purchase_price) * 100
 
 # Tax deductions
 structure_value = 0.85 * (loan + (1200000 if loan < 1200000 else 1500000))
@@ -66,9 +64,14 @@ st.metric("Total Rental Income", format_currency(total_income))
 st.metric("Total Nights Rented", total_nights_rented)
 
 st.subheader("Expense Breakdown")
-for category, amount in expense_breakdown.items():
-    st.write(f"{category}: {format_currency(amount)}")
-st.write(f"Total Expenses: {format_currency(total_expenses)}")
+col1, col2 = st.columns(2)
+with col1:
+    for category in list(expense_breakdown.keys())[:3]:
+        st.metric(category, format_currency(expense_breakdown[category]))
+with col2:
+    for category in list(expense_breakdown.keys())[3:]:
+        st.metric(category, format_currency(expense_breakdown[category]))
+st.write(f"**Total Expenses:** {format_currency(total_expenses)}")
 
 st.subheader("Cash Flow Summary")
 st.metric("Net Cash Flow", format_currency(cash_flow))
@@ -81,10 +84,9 @@ elif cash_flow < 0:
 else:
     st.info("Break-even Cash Flow")
 
-# ROI and Cap Rate
+# ROI
 st.subheader("Investment Metrics")
 st.metric("ROI (Cash-on-Cash)", f"{roi:.2f}%")
-st.metric("Cap Rate", f"{cap_rate:.2f}%")
 
 # Tax deduction summary
 st.subheader("Estimated Tax Write-Offs")
