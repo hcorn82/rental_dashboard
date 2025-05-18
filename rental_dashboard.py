@@ -3,13 +3,17 @@ import streamlit as st
 st.title("Beach Haven Rental Profitability Calculator")
 
 # Inputs
-loan = st.slider("Loan Amount ($)", 700000, 1200000, 850000, step=25000, format="$%d")
-weekly_rent = st.slider("Peak Season Weekly Rent ($)", 10000, 30000, 15000, step=500, format="$%d")
+loan = st.slider("Loan Amount ($)", 700000, 1200000, 850000, step=25000, format="$%s")
+weekly_rent = st.slider("Peak Season Weekly Rent ($)", 10000, 30000, 15000, step=500, format="$%s")
 weeks_rented = st.slider("Peak Weeks Rented", 8, 16, 11, format="%d weeks")
 
 # Shoulder season sliders
 shoulder_nights = st.slider("Shoulder Season Nights Booked", 0, 60, 20, format="%d nights")
-shoulder_rate = st.slider("Shoulder Nightly Rate ($)", 300, 1500, 1000, step=50, format="$%d")
+shoulder_rate = st.slider("Shoulder Nightly Rate ($)", 300, 1500, 1000, step=50, format="$%s")
+
+# Format currency display with commas
+def format_currency(value):
+    return f"${value:,.0f}"
 
 # Constants
 fixed_expenses = 90000  # Tax, insurance, maintenance, mgmt
@@ -31,9 +35,9 @@ total_deductions = annual_depreciation + mortgage_interest + closing_costs
 
 # Outputs
 st.metric("Loan-to-Rent Ratio", ltr)
-st.metric("Total Rental Income", f"${total_rent_income:,.0f}")
-st.metric("Total Expenses", f"${total_expenses:,.0f}")
-st.metric("Net Cash Flow", f"${cash_flow:,.0f}")
+st.metric("Total Rental Income", format_currency(total_rent_income))
+st.metric("Total Expenses", format_currency(total_expenses))
+st.metric("Net Cash Flow", format_currency(cash_flow))
 
 # Cash flow color status
 if cash_flow > 0:
@@ -45,7 +49,7 @@ else:
 
 # Tax deduction summary
 st.subheader("Estimated Tax Write-Offs")
-st.write(f"Annual Depreciation: ${annual_depreciation:,.0f}")
-st.write(f"Mortgage Interest (Yr 1 est.): ${mortgage_interest:,.0f}")
-st.write(f"Estimated Closing Costs: ${closing_costs:,.0f}")
-st.write(f"Total Potential Deductions: ${total_deductions:,.0f}")
+st.write(f"Annual Depreciation: {format_currency(annual_depreciation)}")
+st.write(f"Mortgage Interest (Yr 1 est.): {format_currency(mortgage_interest)}")
+st.write(f"Estimated Closing Costs: {format_currency(closing_costs)}")
+st.write(f"Total Potential Deductions: {format_currency(total_deductions)}")
