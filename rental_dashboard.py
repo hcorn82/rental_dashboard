@@ -9,7 +9,7 @@ weeks_rented = st.slider("Peak Weeks Rented", 8, 16, 11, format="%d weeks")
 
 # Shoulder season sliders
 shoulder_nights = st.slider("Shoulder Season Nights Booked", 0, 60, 20, format="%d nights")
-shoulder_rate = st.slider("Shoulder Nightly Rate ($)", 300, 1500, 1000, step=50, format="$%s")
+shoulder_rate = st.slider("Shoulder Nightly Rate ($)", 800, 4000, 1000, step=50, format="$%s")
 
 # Format currency display with commas
 def format_currency(value):
