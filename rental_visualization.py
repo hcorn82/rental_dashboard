@@ -3,7 +3,8 @@ import streamlit as st
 st.title("Beach Haven Rental Profitability Calculator")
 
 # Inputs
-loan = st.slider("Loan Amount ($)", 300000, 2500000, 850000, step=25000, format="$%s")
+purchase_price = st.slider("Purchase Price ($)", 500000, 5000000, 2500000, step=50000, format="$%s")
+loan = st.slider("Loan Amount ($)", 300000, int(purchase_price), int(purchase_price * 0.75), step=25000, format="$%s")
 weekly_rent = st.slider("Peak Season Weekly Rent ($)", 10000, 30000, 15000, step=500, format="$%s")
 weeks_rented = st.slider("Peak Weeks Rented", 8, 16, 11, format="%d weeks")
 
@@ -18,11 +19,11 @@ def format_currency(value):
 # Constants for fixed expense components
 mortgage_rate_factor = 0.075
 mortgage = loan * mortgage_rate_factor
-property_tax = 0.0159 * loan
-insurance = 0.005 * loan
-maintenance = 0.01 * loan
-management = 0.005 * loan
-utilities_other = 10000
+property_tax = 0.0159 * purchase_price
+insurance = 0.005 * purchase_price
+maintenance = 0.01 * purchase_price
+management = 0.005 * purchase_price
+utilities_other = 0.004 * purchase_price  # 0.4% of purchase price
 
 # Calculate total expenses and breakdown
 expense_breakdown = {
@@ -46,14 +47,14 @@ cash_flow = total_income - total_expenses
 ltr = round(loan / total_income, 2)
 
 # ROI
-down_payment = loan * 0.625  # Assumes loan is 75% of price
+down_payment = purchase_price - loan
 roi = (cash_flow / down_payment) * 100
 
 # Tax deductions
-structure_value = 0.85 * (loan + (1200000 if loan < 1200000 else 1500000))
+structure_value = 0.85 * purchase_price
 annual_depreciation = round(structure_value / 27.5)
 mortgage_interest = round(mortgage * 0.68)
-closing_costs = 0.02 * (loan + (1200000 if loan < 1200000 else 1500000))
+closing_costs = 0.02 * purchase_price
 total_deductions = annual_depreciation + mortgage_interest + closing_costs
 
 # Outputs - Income and Expenses
