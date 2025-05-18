@@ -3,13 +3,13 @@ import streamlit as st
 st.title("Beach Haven Rental Profitability Calculator")
 
 # Inputs
-loan = st.slider("Loan Amount ($)", 700000, 1200000, 850000, step=25000)
-weekly_rent = st.slider("Peak Season Weekly Rent ($)", 10000, 20000, 15000, step=500)
-weeks_rented = st.slider("Peak Weeks Rented", 8, 16, 11)
+loan = st.slider("Loan Amount ($)", 700000, 1200000, 850000, step=25000, format="$%d")
+weekly_rent = st.slider("Peak Season Weekly Rent ($)", 10000, 30000, 15000, step=500, format="$%d")
+weeks_rented = st.slider("Peak Weeks Rented", 8, 16, 11, format="%d weeks")
 
 # Shoulder season sliders
-shoulder_nights = st.slider("Shoulder Season Nights Booked", 0, 60, 20)
-shoulder_rate = st.slider("Shoulder Nightly Rate ($)", 300, 1500, 1000, step=50)
+shoulder_nights = st.slider("Shoulder Season Nights Booked", 0, 60, 20, format="%d nights")
+shoulder_rate = st.slider("Shoulder Nightly Rate ($)", 300, 1500, 1000, step=50, format="$%d")
 
 # Constants
 fixed_expenses = 90000  # Tax, insurance, maintenance, mgmt
