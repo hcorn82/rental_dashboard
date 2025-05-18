@@ -79,6 +79,7 @@ st.subheader("Cash Flow Summary")
 st.metric("Net Cash Flow", format_currency(cash_flow))
 st.metric("Loan-to-Rent Ratio", ltr)
 st.metric("Down Payment", format_currency(down_payment))
+st.metric("Loan Amount", format_currency(loan))
 
 if cash_flow > 0:
     st.success("Positive Cash Flow!")
