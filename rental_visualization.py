@@ -1,6 +1,4 @@
 import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
 
 st.title("Beach Haven Rental Profitability Calculator")
 
@@ -47,6 +45,12 @@ total_nights_rented = (weeks_rented * 7) + shoulder_nights
 cash_flow = total_income - total_expenses
 ltr = round(loan / total_income, 2)
 
+# ROI and Cap Rate
+down_payment = loan * 0.625  # Assumes loan is 75% of price
+purchase_price = loan / 0.75
+roi = (cash_flow / down_payment) * 100
+cap_rate = (total_income / purchase_price) * 100
+
 # Tax deductions
 structure_value = 0.85 * (loan + (1200000 if loan < 1200000 else 1500000))
 annual_depreciation = round(structure_value / 27.5)
@@ -77,29 +81,14 @@ elif cash_flow < 0:
 else:
     st.info("Break-even Cash Flow")
 
+# ROI and Cap Rate
+st.subheader("Investment Metrics")
+st.metric("ROI (Cash-on-Cash)", f"{roi:.2f}%")
+st.metric("Cap Rate", f"{cap_rate:.2f}%")
+
 # Tax deduction summary
 st.subheader("Estimated Tax Write-Offs")
 st.write(f"Annual Depreciation: {format_currency(annual_depreciation)}")
 st.write(f"Mortgage Interest (Yr 1 est.): {format_currency(mortgage_interest)}")
 st.write(f"Estimated Closing Costs: {format_currency(closing_costs)}")
 st.write(f"Total Potential Deductions: {format_currency(total_deductions)}")
-
-# Visualization - Pie chart for expenses
-st.subheader("Expense Allocation Chart")
-fig1, ax1 = plt.subplots()
-ax1.pie(expense_breakdown.values(), labels=expense_breakdown.keys(), autopct='%1.1f%%', startangle=90)
-ax1.axis('equal')
-st.pyplot(fig1)
-
-# Visualization - Bar chart for cash flow vs income vs expenses
-st.subheader("Income vs. Expenses vs. Cash Flow")
-data = pd.DataFrame({
-    'Category': ['Total Income', 'Total Expenses', 'Net Cash Flow'],
-    'Amount': [total_income, total_expenses, cash_flow]
-})
-fig2, ax2 = plt.subplots()
-colors = ['#4caf50', '#f44336', '#2196f3']
-ax2.bar(data['Category'], data['Amount'], color=colors)
-ax2.set_ylabel('Amount ($)')
-ax2.set_title('Financial Overview')
-st.pyplot(fig2)
