@@ -3,7 +3,7 @@ import streamlit as st
 st.title("Beach Haven Rental Profitability Calculator")
 
 # Inputs
-loan = st.slider("Loan Amount ($)", 700000, 1200000, 850000, step=25000, format="$%s")
+loan = st.slider("Loan Amount ($)", 300000, 2500000, 850000, step=25000, format="$%s")
 weekly_rent = st.slider("Peak Season Weekly Rent ($)", 10000, 30000, 15000, step=500, format="$%s")
 weeks_rented = st.slider("Peak Weeks Rented", 8, 16, 11, format="%d weeks")
 
