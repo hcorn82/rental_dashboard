@@ -4,7 +4,9 @@ st.title("Beach Haven Rental Profitability Calculator")
 
 # Inputs
 purchase_price = st.slider("Purchase Price ($)", 500000, 5000000, 2500000, step=50000, format="$%s")
-loan = st.slider("Loan Amount ($)", 300000, int(purchase_price), int(purchase_price * 0.75), step=25000, format="$%s")
+down_payment = st.slider("Down Payment ($)", 100000, int(purchase_price), int(purchase_price * 0.25), step=25000, format="$%s")
+loan = purchase_price - down_payment
+
 weekly_rent = st.slider("Peak Season Weekly Rent ($)", 10000, 30000, 15000, step=500, format="$%s")
 weeks_rented = st.slider("Peak Weeks Rented", 8, 16, 11, format="%d weeks")
 
@@ -47,7 +49,6 @@ cash_flow = total_income - total_expenses
 ltr = round(loan / total_income, 2)
 
 # ROI
-down_payment = purchase_price - loan
 roi = (cash_flow / down_payment) * 100
 
 # Tax deductions
