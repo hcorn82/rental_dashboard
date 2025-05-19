@@ -53,39 +53,35 @@ mortgage_interest = round(mortgage * 0.68)
 closing_costs = 0.02 * purchase_price
 total_deductions = annual_depreciation + mortgage_interest + closing_costs
 
-# Outputs - Income and Expenses
-st.subheader("Income Summary")
-st.metric("Summer Rental Income", format_currency(summer_income))
-st.metric("Shoulder Season Income", format_currency(shoulder_income))
-st.metric("Total Rental Income", format_currency(total_income))
-st.metric("Total Nights Rented", total_nights_rented)
-
-st.subheader("Expense Breakdown")
-col1, col2 = st.columns(2)
-with col1:
-    for category in list(expense_breakdown.keys())[:3]:
-        st.metric(category, format_currency(expense_breakdown[category]))
-with col2:
-    for category in list(expense_breakdown.keys())[3:]:
-        st.metric(category, format_currency(expense_breakdown[category]))
-st.write(f"**Total Expenses:** {format_currency(total_expenses)}")
-
-st.subheader("Cash Flow Summary")
-st.metric("Net Cash Flow", format_currency(cash_flow))
-st.metric("Loan-to-Rent Ratio", ltr)
-st.metric("Down Payment", format_currency(down_payment))
-st.metric("Loan Amount", format_currency(loan))
-
-if cash_flow > 0:
-    st.success("Positive Cash Flow!")
-elif cash_flow < 0:
-    st.error("Negative Cash Flow")
-else:
-    st.info("Break-even Cash Flow")
-
 # 🔹 Year 1 Net Cash Flow after Closing Costs
 year1_net_cash_flow = cash_flow - closing_costs
 
+# Cash Flow Summary + Income Summary in one row
+st.subheader("Financial Performance Overview")
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown("### Cash Flow Summary")
+    st.metric("Net Cash Flow", format_currency(cash_flow))
+    st.metric("Loan-to-Rent Ratio", ltr)
+    st.metric("Down Payment", format_currency(down_payment))
+    st.metric("Loan Amount", format_currency(loan))
+
+    if cash_flow > 0:
+        st.success("Positive Cash Flow!")
+    elif cash_flow < 0:
+        st.error("Negative Cash Flow")
+    else:
+        st.info("Break-even Cash Flow")
+
+with col2:
+    st.markdown("### Income Summary")
+    st.metric("Summer Rental Income", format_currency(summer_income))
+    st.metric("Shoulder Season Income", format_currency(shoulder_income))
+    st.metric("Total Rental Income", format_currency(total_income))
+    st.metric("Total Nights Rented", total_nights_rented)
+
+# Year 1 net position
 st.subheader("Year 1 Net Cash Position")
 st.metric("Estimated Closing Costs", format_currency(closing_costs))
 st.metric("Net Cash Flow After Closing", format_currency(year1_net_cash_flow))
@@ -97,9 +93,19 @@ elif year1_net_cash_flow < 0:
 else:
     st.info("Year 1 Cash Flow Break-Even")
 
-# Tax deduction summary
-st.subheader("Estimated Tax Write-Offs")
-st.write(f"Annual Depreciation: {format_currency(annual_depreciation)}")
-st.write(f"Mortgage Interest (Yr 1 est.): {format_currency(mortgage_interest)}")
-st.write(f"Estimated Closing Costs: {format_currency(closing_costs)}")
-st.write(f"Total Potential Deductions: {format_currency(total_deductions)}")
+# Expense Breakdown and Tax Write-Offs in columns
+st.subheader("Detailed Financial Breakdown")
+col_exp, col_tax = st.columns(2)
+
+with col_exp:
+    st.markdown("### Expense Breakdown")
+    for category, amount in expense_breakdown.items():
+        st.metric(category, format_currency(amount))
+    st.write(f"**Total Expenses:** {format_currency(total_expenses)}")
+
+with col_tax:
+    st.markdown("### Estimated Tax Write-Offs")
+    st.write(f"Annual Depreciation: {format_currency(annual_depreciation)}")
+    st.write(f"Mortgage Interest (Yr 1 est.): {format_currency(mortgage_interest)}")
+    st.write(f"Estimated Closing Costs: {format_currency(closing_costs)}")
+    st.write(f"Total Potential Deductions: {format_currency(total_deductions)}")
