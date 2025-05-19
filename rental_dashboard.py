@@ -19,6 +19,7 @@ def format_currency(value):
 fixed_expenses = 90000  # Tax, insurance, maintenance, mgmt
 mortgage_rate_factor = 0.075  # Approximate annualized debt service cost
 
+# Income and expense calculations
 total_rent_income = (weekly_rent * weeks_rented) + (shoulder_nights * shoulder_rate)
 mortgage = loan * mortgage_rate_factor
 total_expenses = mortgage + fixed_expenses
@@ -26,10 +27,10 @@ cash_flow = total_rent_income - total_expenses
 ltr = round(loan / total_rent_income, 2)
 
 # Estimate tax write-offs
-structure_value = 0.85 * (loan + (1200000 if loan < 1200000 else 1500000))  # estimate structure value as 85% of property
+structure_value = 0.85 * (loan + (1200000 if loan < 1200000 else 1500000))  # estimated structure = 85% of purchase price
 annual_depreciation = round(structure_value / 27.5)
-mortgage_interest = round(mortgage * 0.68)  # Rough 68% of mortgage is interest in early years
-closing_costs = 0.02 * (loan + (1200000 if loan < 1200000 else 1500000))  # estimate 2% of price
+mortgage_interest = round(mortgage * 0.68)  # estimate 68% of mortgage as interest (early years)
+closing_costs = 0.02 * (loan + (1200000 if loan < 1200000 else 1500000))  # estimated 2% closing costs
 
 total_deductions = annual_depreciation + mortgage_interest + closing_costs
 
@@ -46,6 +47,20 @@ elif cash_flow < 0:
     st.error("Negative Cash Flow")
 else:
     st.info("Break-even Cash Flow")
+
+# 🔹 NEW: Year 1 Net Cash Flow after Closing Costs
+year1_net_cash_flow = cash_flow - closing_costs
+
+st.subheader("Year 1 Net Cash Position")
+st.metric("Estimated Closing Costs", format_currency(closing_costs))
+st.metric("Net Cash Flow After Closing", format_currency(year1_net_cash_flow))
+
+if year1_net_cash_flow > 0:
+    st.success("Positive Year 1 Net Cash Flow!")
+elif year1_net_cash_flow < 0:
+    st.error("Negative Year 1 Net Cash Flow")
+else:
+    st.info("Year 1 Cash Flow Break-Even")
 
 # Tax deduction summary
 st.subheader("Estimated Tax Write-Offs")
