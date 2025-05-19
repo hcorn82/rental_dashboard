@@ -93,19 +93,32 @@ elif year1_net_cash_flow < 0:
 else:
     st.info("Year 1 Cash Flow Break-Even")
 
-# Expense Breakdown and Tax Write-Offs in columns
+# Expense Breakdown and Tax Write-Offs side by side with matching style
 st.subheader("Detailed Financial Breakdown")
 col_exp, col_tax = st.columns(2)
 
 with col_exp:
     st.markdown("### Expense Breakdown")
     for category, amount in expense_breakdown.items():
-        st.metric(category, format_currency(amount))
-    st.write(f"**Total Expenses:** {format_currency(total_expenses)}")
+        st.markdown(f"""
+            <div style='margin-bottom: 0.5rem; font-size: 1.2rem;'>
+                <strong>{category}</strong><br>
+                <span style='font-size: 1.8rem;'>${amount:,.0f}</span>
+            </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown(f"""
+        <div style='margin-top: 1rem; font-size: 1.3rem;'>
+            <strong>Total Expenses:</strong>
+            <span style='font-size: 1.8rem; color: #ffffff; display: block;'>${total_expenses:,.0f}</span>
+        </div>
+    """, unsafe_allow_html=True)
 
 with col_tax:
     st.markdown("### Estimated Tax Write-Offs")
-    st.write(f"Annual Depreciation: {format_currency(annual_depreciation)}")
-    st.write(f"Mortgage Interest (Yr 1 est.): {format_currency(mortgage_interest)}")
-    st.write(f"Estimated Closing Costs: {format_currency(closing_costs)}")
-    st.write(f"Total Potential Deductions: {format_currency(total_deductions)}")
+    st.markdown(f"""
+        <div style='font-size: 1.2rem; margin-bottom: 0.5rem;'><strong>Annual Depreciation:</strong> ${annual_depreciation:,.0f}</div>
+        <div style='font-size: 1.2rem; margin-bottom: 0.5rem;'><strong>Mortgage Interest (Yr 1 est.):</strong> ${mortgage_interest:,.0f}</div>
+        <div style='font-size: 1.2rem; margin-bottom: 0.5rem;'><strong>Estimated Closing Costs:</strong> ${closing_costs:,.0f}</div>
+        <div style='font-size: 1.4rem; margin-top: 1rem;'><strong>Total Potential Deductions:</strong> ${total_deductions:,.0f}</div>
+    """, unsafe_allow_html=True)
