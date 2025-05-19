@@ -117,8 +117,21 @@ with col_exp:
 with col_tax:
     st.markdown("### Estimated Tax Write-Offs")
     st.markdown(f"""
-        <div style='font-size: 1.2rem; margin-bottom: 0.5rem;'><strong>Annual Depreciation:</strong> ${annual_depreciation:,.0f}</div>
-        <div style='font-size: 1.2rem; margin-bottom: 0.5rem;'><strong>Mortgage Interest (Yr 1 est.):</strong> ${mortgage_interest:,.0f}</div>
-        <div style='font-size: 1.2rem; margin-bottom: 0.5rem;'><strong>Estimated Closing Costs:</strong> ${closing_costs:,.0f}</div>
-        <div style='font-size: 1.4rem; margin-top: 1rem;'><strong>Total Potential Deductions:</strong> ${total_deductions:,.0f}</div>
+        <div style='margin-bottom: 0.5rem; font-size: 1.2rem;'>
+            <strong>Annual Depreciation</strong><br>
+            <span style='font-size: 1.8rem;'>${annual_depreciation:,.0f}</span>
+        </div>
+        <div style='margin-bottom: 0.5rem; font-size: 1.2rem;'>
+            <strong>Mortgage Interest (Yr 1 est.)</strong><br>
+            <span style='font-size: 1.8rem;'>${mortgage_interest:,.0f}</span>
+        </div>
+        <div style='margin-bottom: 0.5rem; font-size: 1.2rem;'>
+            <strong>Estimated Closing Costs</strong><br>
+            <span style='font-size: 1.8rem;'>${closing_costs:,.0f}</span>
+        </div>
+        <div style='margin-top: 1rem; font-size: 1.3rem;'>
+            <strong>Total Potential Deductions:</strong><br>
+            <span style='font-size: 1.8rem; color: #ffffff;'>${total_deductions:,.0f}</span>
+        </div>
     """, unsafe_allow_html=True)
+
